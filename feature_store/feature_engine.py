@@ -46,6 +46,13 @@ class FeatureEngine:
         df['is_error'] = (df['level'] == 'ERROR').astype(int)
         df['is_warning'] = (df['level'] == 'WARN').astype(int)
         
+        # Add synthetic metrics based on system
+        for system in ['java_app', 'kubernetes', 'cobol_mainframe']:
+            system_mask = df['system'] == system
+            if system_mask.any():
+                df.loc[system_mask, 'cpu_usage'] = np.random.uniform(20, 80, system_mask.sum())
+                df.loc[system_mask, 'memory_usage'] = np.random.uniform(30, 85, system_mask.sum())
+        
         # Store features
         self.feature_store = pd.concat([self.feature_store, df], ignore_index=True)
         

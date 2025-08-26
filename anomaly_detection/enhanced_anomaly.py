@@ -1,4 +1,4 @@
-# anomaly_detection/deep_anomaly.py
+# anomaly_detection/enhanced_anomaly.py
 import pandas as pd
 import numpy as np
 import re
@@ -12,7 +12,8 @@ class EnhancedAnomalyDetector:
                 'OutOfMemoryError': r'OutOfMemoryError',
                 'DatabaseConnectionTimeout': r'Database connection timeout',
                 'HighMemoryUsage': r'High memory usage detected',
-                'SlowQueries': r'Slow database queries'
+                'SlowQueries': r'Slow database queries',
+                'ConnectionPoolWarning': r'Connection pool at.*capacity'
             },
             'kubernetes': {
                 'PodCrashOOM': r'Pod crashed due to OOM',
@@ -96,7 +97,10 @@ class EnhancedAnomalyDetector:
             'PodCrashOOM': 9.0,
             'CPUThrottling': 7.0,
             'JobAbend': 8.5,
-            'StorageWarning': 6.5
+            'StorageWarning': 6.5,
+            'ConnectionPoolWarning': 5.5,
+            'ImagePullFailed': 7.0,
+            'NodeNotReady': 8.0
         }
         
         # Default score if issue type not in base_scores
