@@ -1,0 +1,38 @@
+groups:
+  - name: ai-platform-alerts
+    rules:
+      - alert: HighCPUUsage
+        expr: process_cpu_seconds_total{job="ai-platform"} > 0.8
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on AI Platform"
+          description: "CPU usage is above 80% for 5 minutes"
+
+      - alert: HighMemoryUsage
+        expr: process_resident_memory_bytes{job="ai-platform"} / 1024 / 1024 > 512
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Memory usage on AI Platform"
+          description: "Memory usage is above 512MB for 5 minutes"
+
+      - alert: OllamaDown
+        expr: up{job="ollama"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Ollama service is down"
+          description: "Ollama metrics endpoint is not responding"
+
+      - alert: AIPlatformDown
+        expr: up{job="ai-platform"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "AI Platform service is down"
+          description: "AI Platform metrics endpoint is not responding"
